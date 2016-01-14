@@ -124,17 +124,17 @@
               var views = _.values(pricingViews)
               var viewSummed = _.reduce(views, function(memo, num){ return memo + num; }, 0);
               var tempDates = []
-              var lastViewDate = 'N/A'
+              var lastViewDate;
               _.each(_.keys(pricingViews), function(date){
                 if (pricingViews[date] != 0) {
                   tempDates.push(date);
                 }
               })
-              debugger;
-              tempDates.sort().reverse();
-              var lastViewDate = _.first(tempDates);
-              debugger;
               
+              tempDates.sort().reverse();
+              lastViewDate = _.first(tempDates) ? _.first(tempDates) ? 'N/A';
+              
+              console.log(email, lastViewDate, viewSummed, email)
           })
           drawTable();
         });
