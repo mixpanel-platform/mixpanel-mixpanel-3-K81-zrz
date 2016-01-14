@@ -77,18 +77,20 @@
             _.each(mixpanelReps, function(rep){
               repData.items.push({'label': rep, 'value': rep});
             })
-            var dropdown = $('#leadSelect').MPSelect(repData); 
-            var dateSelect  = $('#dateSelect').MPDatepicker();
+            dropdown = $('#leadSelect').MPSelect(repData); 
+            dateSelect  = $('#dateSelect').MPDatepicker();
+            dropdown.on('change', function(e, selection) {                         
+              alert(selection);
+            });
             
+            dateSelect.on('change', function(e, selection){
+              alert(selection);
+            })
         })
-       
+        console.log(repData)
         
-        dropdown.on('change', function(e, selection) {                         
-            alert(selection);
-        });
-        dateSelect.on('change', function(e, selection){
-          alert(selection);
-        })
+        
+        
           
       });
       
