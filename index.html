@@ -77,7 +77,6 @@
             console.log(mixpanelReps);
             _.each(mixpanelReps, function(rep){
               repData.items.push({'label': rep, 'value': rep});
-             
             })
             var dropdown = $('#leadSelect').MPSelect(repData); 
             var dateSelect  = $('#dateSelect').MPDatepicker();
