@@ -117,10 +117,10 @@
           console.log(responseData);
          
           var leadEmails = _.keys(responseData);
+          console.log(leadEmails);
           debugger;
           _.each(leadEmails, function(email){
               var pricingViews = responseData[email];
-              /* Sum over this to get the total pricing views */
               var views = _.values(pricingViews)
               var viewSummed = _.reduce(views, function(memo, num){ return memo + num; }, 0);
               var tempDates = []
