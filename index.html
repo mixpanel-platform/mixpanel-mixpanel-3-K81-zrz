@@ -79,7 +79,6 @@
             _.each(mixpanelReps, function(rep){
               repData.items.push({'label': rep, 'value': rep});
             })
-             
             
             /* Bootstrap overrides our option select's height */
             dropdown = $('#leadSelect').MPSelect(repData);
@@ -87,7 +86,9 @@
             
             
             dateSelect  = $('#dateSelect').MPDatepicker();
-            dropdown.on('change', function(e, selection) {                         
+            dropdown.on('change', function(e, selection) {  
+              /* Bootstrap Override again */
+             $('#leadSelect .select_button').css('height', '32px');
               var rep = $('#leadSelect').val();
               var date = $('#dateSelect').val();
               runQuery(rep, date);
@@ -110,7 +111,16 @@
       var runQuery = function(accountRep, dates) {
         console.log(accountRep, dates);
         
-        drawTable();
+        /* Query View pricing page event with account rep as property */
+        var onClause = 'properties["Email"]'
+        var whereClause = '("' + accountRep + '" in string(user["Lead owner name"])) and (defined (user["Lead owner name"]))'
+        
+        var pricingPageQuery = MP.api.query('/api/2.0/segmentation/', {event: 'View pricing page', where: whereClause, on: onClause, from:dates.from, to: dates.to}, {dataType: 'json'})
+        pricingPageQuery.done(function(data){
+          console.log(data);
+          drawTable;
+        });
+        
       }
       
       var drawTable = function(){
