@@ -4,13 +4,11 @@
     <meta charset="utf-8">
     <link rel="stylesheet" type="text/css" href="https://cdn.mxpnl.com/libs/mixpanel-platform/css/reset.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.mxpnl.com/libs/mixpanel-platform/build/mixpanel-platform.v0.latest.min.css">
-    <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+    <script src="https://cdn.mxpnl.com/libs/mixpanel-platform/build/mixpanel-platform.v0.latest.min.js"></script>
         <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-    
     <script src="//cdn.datatables.net/1.10.9/js/jquery.dataTables.min.js"></script>
     <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.9/css/jquery.dataTables.min.css">
-    <script src="https://cdn.mxpnl.com/libs/mixpanel-platform/build/mixpanel-platform.v0.latest.min.js"></script>
   </head>
   <body class="mixpanel-platform-body">
       <div class='row'>
@@ -99,11 +97,7 @@
               var date = $('#dateSelct').val();
               runQuery(rep, date);
             })
-            
-            
         })
-          
-       
         
       });
       
@@ -112,13 +106,25 @@
         console.log(accountRep, dates);
         
         /* Query View pricing page event with account rep as property */
+        var pricingData = {};
         var onClause = 'properties["Email"]'
         var whereClause = '("' + accountRep + '" in string(user["Lead owner name"])) and (defined (user["Lead owner name"]))'
         
         var pricingPageQuery = MP.api.query('/api/2.0/segmentation/', {event: 'View pricing page', where: whereClause, on: onClause, from:dates.from, to: dates.to}, {dataType: 'json'})
-        pricingPageQuery.done(function(data){
-          console.log(data);
-          drawTable;
+        pricingPageQuery.done(function(response){
+          
+          var responseData = response.data.values;
+          console.log(responseData);
+         
+          var leadEmails = _.keys(responseData);
+          _.each(leadEmails, function(email){
+              var pricingViews = responseData[email];
+              /* Sum over this to get the total pricing views */
+              var views = _.values(pricingViews)
+              var viewSummed = _.reduce(views, function(memo, num){ return memo + num; }, 0);
+              var lastViewDate = 
+          })
+          drawTable();
         });
         
       }
@@ -136,30 +142,7 @@
         */
 
       }
-      
-      /*
-          var leadOwner = eventSelect.MPEventSelect('value'),
-            propName  = propSelect.MPPropertySelect('value'),
-            dateRange = dateSelect.MPDatepicker('value');
-      
-
-        if (eventName) {
-          MP.api.segment(eventName, propName, dateRange).done(function(results) {
-            eventGraph.MPChart('setData', results);
-            eventTable.MPTable('setData', results);
-          });
-        }
-      };
-      eventSelect.on('change', function(e, eventName) {
-        propSelect.MPPropertySelect('setEvent', eventName);
-        $("#by").show();
-        runQuery();
-      });
-      propSelect.on('change', runQuery);
-      dateSelect.on('change', runQuery);
-      */
-      
-      runQuery();
+    
     </script>
   </body>
 </html>
