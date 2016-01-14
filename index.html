@@ -60,8 +60,24 @@
     
     <div id="table"></div>
     <script>
-      var leadSelect = $('#leadSelect').MPEventSelect();
-      var dateSelect  = $('#dateSelect').MPDatepicker();
+      
+      var options = {
+          items: [
+            {label: 'Label 1', value: 1},
+            {label: 'Label 2', value: 'Value 2'},
+            {label: 'Third label', value: '3rd value'}
+          ]
+        };
+
+      $(document).ready(function() {
+        /* Query for all Mixpanel Sales reps first */
+        var dropdown = $('#leadSelect').appendTo('body').MPSelect(options); 
+        var dateSelect  = $('#dateSelect').MPDatepicker();
+              // Create the dropdown with your data
+          dropdown.on('change', function(e, selection) {                          // Do something when an option is selected
+              alert(selection);
+          });
+      });
       
 
       var runQuery = function() {
