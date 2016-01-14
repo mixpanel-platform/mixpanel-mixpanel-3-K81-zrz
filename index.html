@@ -14,7 +14,7 @@
   </head>
   <body class="mixpanel-platform-body">
       <div class='row'>
-        <div id="leadSelect" style="float: left; height:36px !important;"></div>
+        <div id="leadSelect" style="float: left"></div>
         <div id="by" class="mixpanel-platform-label" style="margin-left: 10px; display: none;">by</div>
         <div id="dateSelect" style="float: right;"></div>
       </div>
@@ -66,6 +66,7 @@
       
     
       $(document).ready(function() {
+ 
         /* Query for all Mixpanel Sales reps first */
         var repData = {
           'items': []
@@ -74,30 +75,40 @@
 
         queryLeads.done(function(json) {
             var mixpanelReps = _.keys(json.data.values);
-            console.log(mixpanelReps);
+       
             _.each(mixpanelReps, function(rep){
               repData.items.push({'label': rep, 'value': rep});
             })
-            dropdown = $('#leadSelect').MPSelect(repData); 
+             
+            
+            /* Bootstrap overrides our option select's height */
+            dropdown = $('#leadSelect').MPSelect(repData);
+            $('#leadSelect .select_button').css('height', '32px');
+            
+            
             dateSelect  = $('#dateSelect').MPDatepicker();
             dropdown.on('change', function(e, selection) {                         
-              alert(selection);
+              var rep = $('#leadSelect').val();
+              var date = $('#dateSelect').val();
+              runQuery(rep, date);
             });
             
             dateSelect.on('change', function(e, selection){
-              alert(selection);
+              var rep = $('#leadSelect').val();
+              var date = $('#dateSelct').val();
+              runQuery(rep, date);
             })
+            
+            
         })
-        console.log(repData)
-        
-        
-        
           
+       
+        
       });
       
 
-      var runQuery = function() {
-        
+      var runQuery = function(accountRep, dates) {
+        console.log(accountRep, dates);
         
         drawTable();
       }
