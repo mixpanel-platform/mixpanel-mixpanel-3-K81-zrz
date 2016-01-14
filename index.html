@@ -63,14 +63,7 @@
     <div id="table"></div>
     <script>
       
-      var options = {
-          items: [
-            {label: 'Label 1', value: 1},
-            {label: 'Label 2', value: 'Value 2'},
-            {label: 'Third label', value: '3rd value'}
-          ]
-        };
-
+    
       $(document).ready(function() {
         /* Query for all Mixpanel Sales reps first */
         var repData = {
@@ -86,7 +79,7 @@
               repData.items.push({'label': rep, 'value': rep});
              
             })
-            var dropdown = $('#leadSelect').MPSelect(options); 
+            var dropdown = $('#leadSelect').MPSelect(repData); 
             var dateSelect  = $('#dateSelect').MPDatepicker();
             
         })
