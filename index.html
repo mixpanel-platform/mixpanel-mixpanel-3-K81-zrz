@@ -59,7 +59,25 @@
       var dateSelect  = $('#dateSelect').MPDatepicker();
       
 
-      var runQuery = function() {}
+      var runQuery = function() {
+        
+        
+        drawTable();
+      }
+      
+      var drawTable = function(){
+        var table = $('#datatable1').DataTable();
+        /* Clear it before we Draw Again */
+        table.clear();
+        /* 
+        _.each(_.keys(data), function(datum){
+            table.row.add([datum,data[datum]]).draw(false);
+        });
+        
+        table.order([1, 'desc']).draw();
+        */
+
+      }
       
       /*
           var leadOwner = eventSelect.MPEventSelect('value'),
