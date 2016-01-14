@@ -73,7 +73,7 @@
 
       $(document).ready(function() {
         /* Query for all Mixpanel Sales reps first */
-        var dropdown = $('#leadSelect').appendTo('body').MPSelect(options); 
+        var dropdown = $('#leadSelect').MPSelect(options); 
         var dateSelect  = $('#dateSelect').MPDatepicker();
               // Create the dropdown with your data
           dropdown.on('change', function(e, selection) {                          // Do something when an option is selected
