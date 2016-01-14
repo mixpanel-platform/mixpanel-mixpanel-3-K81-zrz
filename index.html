@@ -122,7 +122,16 @@
               /* Sum over this to get the total pricing views */
               var views = _.values(pricingViews)
               var viewSummed = _.reduce(views, function(memo, num){ return memo + num; }, 0);
-              var lastViewDate = 
+              var tempDates = []
+              _.each(_.keys(pricingViews), function(date){
+                if (pricingViews[date] != 0) {
+                  tempDates.push(date);
+                }
+              })
+              tempDates.sort().reverse();
+              var lastViewDate = tempDates.first();
+              debugger;
+              
           })
           drawTable();
         });
