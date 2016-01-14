@@ -123,6 +123,7 @@
               var views = _.values(pricingViews)
               var viewSummed = _.reduce(views, function(memo, num){ return memo + num; }, 0);
               var tempDates = []
+              var lastViewDate = 'N/A'
               _.each(_.keys(pricingViews), function(date){
                 if (pricingViews[date] != 0) {
                   tempDates.push(date);
