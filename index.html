@@ -73,17 +73,26 @@
 
       $(document).ready(function() {
         /* Query for all Mixpanel Sales reps first */
+        var repData = {}
         var queryLeads = MP.api.query('/api/2.0/segmentation/', {event: 'View pricing page', on: 'user["Lead owner name"]', unit: 'month'}, {dataType: 'json'})
 
         queryLeads.done(function(json) {
-            console.log('got json\n', json);
+            var mixpanelReps = _.keys(json.data.values);
+            console.log(mixpanelReps);
+            _.each(mixpanelReps, function(rep){
+              repData.label = rep;
+              repData.value = rep;
+              var dropdown = $('#leadSelect').MPSelect(options); 
+              var dateSelect  = $('#dateSelect').MPDatepicker();
+            })
+            
         })
-        var dropdown = $('#leadSelect').MPSelect(options); 
-        var dateSelect  = $('#dateSelect').MPDatepicker();
-              // Create the dropdown with your data
-          dropdown.on('change', function(e, selection) {                          // Do something when an option is selected
-              alert(selection);
-          });
+       
+        
+        dropdown.on('change', function(e, selection) {                         
+            alert(selection);
+        });
+          
       });
       
 
