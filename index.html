@@ -130,9 +130,8 @@
                   tempDates.push(date);
                 }
               })
-              
               tempDates.sort().reverse();
-              lastViewDate = _.first(tempDates) ? _.first(tempDates) ? 'N/A';
+              lastViewDate = _.first(tempDates) ? _.first(tempDates) : 'N/A';
               
               console.log(email, lastViewDate, viewSummed, email)
           })
