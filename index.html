@@ -123,10 +123,10 @@
           var queries = [];
           
           var responseData = response.data.values;
-          console.log(responseData);
+          
          
           var leadEmails = _.keys(responseData);
-          console.log(leadEmails);
+          
           _.each(leadEmails, function(userEmail){
             if (userEmail != undefined || userEmail != 'undefined'){
               var peopleQuery = MP.api.people({where: 'properties["$email"] == "' + userEmail + '"'})
@@ -161,18 +161,20 @@
                 })
                 tempDates.sort().reverse();
                 lastViewDate = _.first(tempDates) ? _.first(tempDates) : 'N/A';
+                
                 if (email in peopleData){
+                  console.log('here')
                   lastActivityDate = 'Last activity date' in peopleData[email] ? peopleData[email]['Last activity date'] : 'N/A' 
                   predictGrade = '$predict_grade' in peopleData[email] ? peopleData[email]['$predict grade'] : 'N/A'
                   company = 'Company' in peopleData[email] ? peopleData[email]['Company'] : 'N/A'
                   tableData[email] = [email, company, viewSummed, lastViewDate, lastActivityDate, predictGrade];
+                  console.log(tableData)
+                  drawTable(tableData);
                 }
-                
-                
                 
             })
           }) 
-          drawTable(tableData);
+          
         });
         
       }
