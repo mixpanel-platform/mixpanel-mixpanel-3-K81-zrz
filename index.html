@@ -137,8 +137,11 @@
            
             _.each(peopleQueries, function(leadData){
               var userDatum = leadData.values();
-              var email = userDatum.results.0.$properties['$email'];
-              peopleData[email] = userDatum.results.0.$properties;
+              console.log(userDatum)
+              if (_.contains(_.keys(userDatum.results), '0')) {
+                var email = userDatum.results[0].$properties['$email'];
+                peopleData[email] = userDatum.results[0].$properties;
+              }
             })
             
             console.log(peopleData)
