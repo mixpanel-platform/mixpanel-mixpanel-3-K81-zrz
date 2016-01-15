@@ -172,7 +172,6 @@
                   lastActivityDate = '$last_seen' in peopleData[email] ? peopleData[email]['$last_seen'].split('T')[0] : 'N/A' 
                   predictGrade = '$predict_grade' in peopleData[email] ? peopleData[email]['$predict_grade'] : 'N/A'
                   console.log(predictGrade)
-                  debugger;
                   company = 'Company' in peopleData[email] ? peopleData[email]['Company'] : 'N/A'
                   tableData[email] = [email, company, viewSummed, lastViewDate, lastActivityDate, predictGrade];
                   console.log(tableData)
