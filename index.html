@@ -106,8 +106,6 @@
       
 
       var runQuery = function(accountRep, dates) {
-        console.log(accountRep, dates);
-        
         /* Query View pricing page event with account rep as property */
         var tableData = {};
         var peopleData = {};
@@ -121,10 +119,7 @@
           /* Make People Queries */
           
           var queries = [];
-          
           var responseData = response.data.values;
-          
-         
           var leadEmails = _.keys(responseData);
           
           _.each(leadEmails, function(userEmail){
@@ -143,7 +138,6 @@
               }
             })
             
-            console.log(peopleData)
             _.each(leadEmails, function(email){
                 var pricingViews = responseData[email];
                 var views = _.values(pricingViews)
@@ -163,15 +157,13 @@
                 lastViewDate = _.first(tempDates) ? _.first(tempDates) : 'N/A';
                 
                 if (email in peopleData){
-                  console.log(peopleData[email])
-                  console.log('here')
+                  
                   lastActivityDate = '$last_seen' in peopleData[email] ? peopleData[email]['$last_seen'].split('T')[0] : 'N/A' 
                   predictGrade = '$predict_grade' in peopleData[email] ? peopleData[email]['$predict_grade'] : 'N/A'
-                  console.log(predictGrade)
-                  debugger;
+                  
                   company = 'Company' in peopleData[email] ? peopleData[email]['Company'] : 'N/A'
                   tableData[email] = [email, company, viewSummed, lastViewDate, lastActivityDate, predictGrade];
-                  console.log(tableData)
+                 
                   
                 }
                 
