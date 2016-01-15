@@ -110,6 +110,7 @@
         
         /* Query View pricing page event with account rep as property */
         var tableData = {};
+        var peopleData = {};
         var pricingData = {};
         var onClause = 'properties["Email"]'
         var whereClause = '("' + accountRep + '" in string(user["Lead owner name"])) and (defined (user["Lead owner name"]))'
@@ -118,30 +119,46 @@
         
         pricingPageQuery.done(function(response){
           /* Make People Queries */
-          var leads = [];
+          
+          var queries = [];
           
           var responseData = response.data.values;
           console.log(responseData);
          
           var leadEmails = _.keys(responseData);
           console.log(leadEmails);
-          
-          _.each(leadEmails, function(email){
-              var pricingViews = responseData[email];
-              var views = _.values(pricingViews)
-              var viewSummed = _.reduce(views, function(memo, num){ return memo + num; }, 0);
-              var tempDates = []
-              var lastViewDate;
-              _.each(_.keys(pricingViews), function(date){
-                if (pricingViews[date] != 0) {
-                  tempDates.push(date);
-                }
-              })
-              tempDates.sort().reverse();
-              lastViewDate = _.first(tempDates) ? _.first(tempDates) : 'N/A';
-              tableData[email] = [email, email, viewSummed, lastViewDate, lastViewDate, 'c'];
-              
+          _.each(leadEmails, function(userEmail){
+            if (userEmail != undefined || userEmail != 'undefined'){
+              var peopleQuery = MP.api.people({where: 'properties["$email"] == "' + userEmail + '"'})
+            }
+            queries.push(peopleQuery);
           })
+          Promise.all(queries).then(function(peopleQueries){
+           
+            _.each(peopleQueries, function(leadData){
+              var userDatum = leadData.values();
+              var email = userDatum.results.0.$properties['$email'];
+              peopleData[email] = userDatum.results.0.$properties;
+            })
+            
+            console.log(peopleData)
+            _.each(leadEmails, function(email){
+                var pricingViews = responseData[email];
+                var views = _.values(pricingViews)
+                var viewSummed = _.reduce(views, function(memo, num){ return memo + num; }, 0);
+                var tempDates = []
+                var lastViewDate;
+                _.each(_.keys(pricingViews), function(date){
+                  if (pricingViews[date] != 0) {
+                    tempDates.push(date);
+                  }
+                })
+                tempDates.sort().reverse();
+                lastViewDate = _.first(tempDates) ? _.first(tempDates) : 'N/A';
+                tableData[email] = [email, email, viewSummed, lastViewDate, lastViewDate, 'c'];
+                
+            })
+          }) 
           drawTable(tableData);
         });
         
