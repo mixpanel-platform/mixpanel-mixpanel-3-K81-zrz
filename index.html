@@ -137,7 +137,6 @@
            
             _.each(peopleQueries, function(leadData){
               var userDatum = leadData.values();
-              console.log(userDatum)
               if (_.contains(_.keys(userDatum.results), '0')) {
                 var email = userDatum.results[0].$properties['$email'];
                 peopleData[email] = userDatum.results[0].$properties;
@@ -151,6 +150,10 @@
                 var viewSummed = _.reduce(views, function(memo, num){ return memo + num; }, 0);
                 var tempDates = []
                 var lastViewDate;
+                var lastActivityDate;
+                var predictGrade;
+                var company;
+                
                 _.each(_.keys(pricingViews), function(date){
                   if (pricingViews[date] != 0) {
                     tempDates.push(date);
@@ -158,7 +161,14 @@
                 })
                 tempDates.sort().reverse();
                 lastViewDate = _.first(tempDates) ? _.first(tempDates) : 'N/A';
-                tableData[email] = [email, email, viewSummed, lastViewDate, lastViewDate, 'c'];
+                if (email in peopleData){
+                  lastActivityDate = 'Last activity date' in peopleData[email] ? peopleData[email]['Last activity date'] : 'N/A' 
+                  predictGrade = '$predict_grade' in peopleData[email] ? peopleData[email]['$predict grade'] : 'N/A'
+                  company = 'Company' in peopleData[email] ? peopleData[email]['Company'] : 'N/A'
+                  tableData[email] = [email, company, viewSummed, lastViewDate, lastActivityDate, predictGrade];
+                }
+                
+                
                 
             })
           }) 
