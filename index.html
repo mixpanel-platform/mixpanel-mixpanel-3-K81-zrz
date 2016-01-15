@@ -163,16 +163,19 @@
                 lastViewDate = _.first(tempDates) ? _.first(tempDates) : 'N/A';
                 
                 if (email in peopleData){
+                  console.log(peopleData[email])
                   console.log('here')
                   lastActivityDate = 'Last activity date' in peopleData[email] ? peopleData[email]['Last activity date'] : 'N/A' 
                   predictGrade = '$predict_grade' in peopleData[email] ? peopleData[email]['$predict grade'] : 'N/A'
+                  console.log(predictGrade)
                   company = 'Company' in peopleData[email] ? peopleData[email]['Company'] : 'N/A'
                   tableData[email] = [email, company, viewSummed, lastViewDate, lastActivityDate, predictGrade];
                   console.log(tableData)
-                  drawTable(tableData);
+                  
                 }
                 
             })
+            drawTable(tableData);
           }) 
           
         });
