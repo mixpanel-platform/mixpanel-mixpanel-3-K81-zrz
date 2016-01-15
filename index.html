@@ -87,9 +87,6 @@
             
             
             dateSelect  = $('#dateSelect').MPDatepicker();
-            var rep = $('#leadSelect').val();
-            var date = $('#dateSelct').val();
-            runQuery(rep, date);
             dropdown.on('change', function(e, selection) {  
               /* Bootstrap Override again */
              $('#leadSelect .select_button').css('height', '32px');
@@ -103,7 +100,6 @@
               var date = $('#dateSelct').val();
               runQuery(rep, date);
             })
-          
         })
         
       });
@@ -172,6 +168,7 @@
                   lastActivityDate = '$last_seen' in peopleData[email] ? peopleData[email]['$last_seen'].split('T')[0] : 'N/A' 
                   predictGrade = '$predict_grade' in peopleData[email] ? peopleData[email]['$predict_grade'] : 'N/A'
                   console.log(predictGrade)
+                  debugger;
                   company = 'Company' in peopleData[email] ? peopleData[email]['Company'] : 'N/A'
                   tableData[email] = [email, company, viewSummed, lastViewDate, lastActivityDate, predictGrade];
                   console.log(tableData)
