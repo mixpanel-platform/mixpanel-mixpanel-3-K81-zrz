@@ -87,6 +87,9 @@
             
             
             dateSelect  = $('#dateSelect').MPDatepicker();
+            var rep = $('#leadSelect').val();
+            var date = $('#dateSelct').val();
+            runQuery(rep, date);
             dropdown.on('change', function(e, selection) {  
               /* Bootstrap Override again */
              $('#leadSelect .select_button').css('height', '32px');
@@ -100,9 +103,7 @@
               var date = $('#dateSelct').val();
               runQuery(rep, date);
             })
-          var rep = $('#leadSelect').val();
-          var date = $('#dateSelct').val();
-          runQuery(rep, date);
+          
         })
         
       });
