@@ -203,7 +203,8 @@
          /* Query Streams & Explore */
          
          query.done(function(response){
-            console.log(response);
+            var data = response.values();
+            console.log(data);
             
             /* Show Popup */
          });
