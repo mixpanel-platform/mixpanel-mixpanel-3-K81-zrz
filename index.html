@@ -192,6 +192,7 @@
       }
       
       $('#datatable1').on('click', 'tr', function () {
+          var table = $('#datatable1').DataTable();
           var data = table.row( this ).data();
           alert( 'You clicked on '+data[0]+'\'s row' );
       } );
