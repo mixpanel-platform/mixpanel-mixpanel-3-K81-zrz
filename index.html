@@ -201,6 +201,7 @@
       var queryExplore = function(email){
          var query = MP.api.people({where: 'properties["$email"] == "' + email + '"'});
          /* Query Streams & Explore */
+         
          query.done(function(response){
             console.log(response);
             
