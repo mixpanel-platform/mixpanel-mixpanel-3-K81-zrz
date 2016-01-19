@@ -104,6 +104,8 @@
         
       });
       
+      
+      
 
       var runQuery = function(accountRep, dates) {
         /* Query View pricing page event with account rep as property */
@@ -188,6 +190,11 @@
         
 
       }
+      
+      $('#datatable1').on('click', 'tr', function () {
+          var data = table.row( this ).data();
+          alert( 'You clicked on '+data[0]+'\'s row' );
+      } );
     
     </script>
   </body>
