@@ -198,10 +198,21 @@
 
       }
       
+      var queryExplore = function(email){
+         var query = MP.api.people({where: 'properties["$email"] == "' + email + '"'});
+         /* Query Streams & Explore */
+         query.done(function(response){
+            console.log(response);
+            
+            /* Show Popup */
+         });
+      }
+      
       $('#datatable1').on('click', 'tr', function () {
           var table = $('#datatable1').DataTable();
           var data = table.row( this ).data();
           alert( 'You clicked on '+data[0]+'\'s row' );
+          queryExplore(data[0]);
       } );
     
     </script>
