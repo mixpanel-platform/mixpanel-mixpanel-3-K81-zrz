@@ -69,17 +69,17 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="myModalLabel">People Profile // Activity Feed</h4>
+                        <h4 class="modal-title text-center" id="myModalLabel">People Profile & Activity Feed</h4>
                 </div>
                 <div class="modal-body">
                     <div class="row">
-                        <div class="col-md-4">
-                            <h5 class="title"> People Profile</h5>
-                            <div class="col-md-4" id="people-profile"></div>
+                        <div class="col-md-6">
+                            <h5 class="title text-center"> People Profile</h5>
+                            <div class="text-center" id="people-profile"></div>
                         </div>
-                        <div class="col-md-4 col-md-offset-2">
-                            <h5 class="title"> Activity Feed</h5>
-                            <div class="col-md-4" id="activity-feed"></div>
+                        <div class="col-md-6">
+                            <h5 class="title text-center"> Activity Feed</h5>
+                            <div class="text-center" id="activity-feed"></div>
                         </div>
                     </div>
                 </div>
@@ -237,10 +237,12 @@
                       var time = response['results']['events'][index]['properties']['time']
                       var datum = {}
                       datum['eventName'] = eventName
-                      datum['time'] = time
+                      datum['time'] = convertTimeStamp(time)
                       data.push(datum)       
                   })
                   console.log(data.reverse())
+
+                  /* Take the top 100 Events */
                   var results = data.slice(0, 101)
                   _.each(results, function(streamEvent){
                       $('#activity-feed').append("<p>" + streamEvent['eventName'] + ": " + streamEvent['time'] + "</p>");
@@ -266,7 +268,8 @@
                 distinctId = results['0']['$distinct_id']
 
                 _.each(customerDataKeys, function(key){
-                    $("#people-profile").append("<p>" + key + ": " + customerData[key] + "</p>");
+                    var mappedProperty = remapKey(key);
+                    $("#people-profile").append("<p style='width: 100%'>" + mappedProperty + ": " + customerData[key] + "</p>");
                 });
 
                 /* Query Streams */
@@ -276,6 +279,44 @@
             }
 
          });
+      }
+      
+      function remapKey(prop) {
+        if (prop.charAt(0) == '$'){
+          var newProp = toTitleCase(prop.split('$')[1]).replace('_',' ');
+          return newProp;
+        }
+        return prop
+      }
+
+      function toTitleCase(str) {
+          return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+      }
+      function convertTimeStamp(timestamp) {
+        /* JavaScript milliseconds for UTC */
+          var d = new Date(timestamp * 1000), 
+            yyyy = d.getFullYear(),
+            mm = ('0' + (d.getMonth() + 1)).slice(-2),  
+            dd = ('0' + d.getDate()).slice(-2),    
+            hh = d.getHours(),
+            h = hh,
+            min = ('0' + d.getMinutes()).slice(-2),
+            ampm = 'AM',
+            time;
+              
+          if (hh > 12) {
+            h = hh - 12;
+            ampm = 'PM';
+          } else if (hh === 12) {
+            h = 12;
+            ampm = 'PM';
+          } else if (hh == 0) {
+            h = 12;
+          }
+          
+          time = yyyy + '-' + mm + '-' + dd + ', ' + h + ':' + min + ' ' + ampm;
+            
+          return time.split(',')[0];
       }
       
       $('#datatable1').on('click', 'tr', function () {
