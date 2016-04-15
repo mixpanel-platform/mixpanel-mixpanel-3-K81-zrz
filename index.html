@@ -107,15 +107,16 @@
         var repData = {
           'items': []
         }
-        var queryLeads = MP.api.query('/api/2.0/segmentation/', {event: 'View pricing page', on: 'user["Lead owner name"]', unit: 'month'}, {dataType: 'json'})
+        var queryLeads = MP.api.query('/api/2.0/segmentation/', {event: 'View pricing page', on: 'user["Lead owner name"]', unit: 'month', limit:5000}, {dataType: 'json'})
 
         queryLeads.done(function(json) {
             var mixpanelReps = _.keys(json.data.values);
-       
+            repData.items.push({'label': '-- Select Rep --', 'value': 'select'})
             _.each(mixpanelReps, function(rep){
-              repData.items.push({'label': rep, 'value': rep});
+              if (rep != 'undefined') {
+                repData.items.push({'label': rep, 'value': rep});
+              }
             })
-            
             /* Bootstrap overrides our option select's height */
             dropdown = $('#leadSelect').MPSelect(repData);
             $('#leadSelect .select_button').css('height', '32px');
@@ -123,11 +124,13 @@
             
             dateSelect  = $('#dateSelect').MPDatepicker();
             dropdown.on('change', function(e, selection) {  
-              /* Bootstrap Override again */
-             $('#leadSelect .select_button').css('height', '32px');
-              var rep = $('#leadSelect').val();
-              var date = $('#dateSelect').val();
-              runQuery(rep, date);
+              if (selection !== 'select') {
+                /* Bootstrap Override again */
+               $('#leadSelect .select_button').css('height', '32px');
+                var rep = $('#leadSelect').val();
+                var date = $('#dateSelect').val();
+                runQuery(rep, date);
+              }
             });
             
             dateSelect.on('change', function(e, selection){
